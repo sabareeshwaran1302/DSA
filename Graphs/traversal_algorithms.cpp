@@ -4,11 +4,22 @@ There are two ways to traverse a graph:
 2. Depth First Search (DFS)
 
 
+
+
+
 1.Breadth First Search (BFS):
 In BFS, we start from a source vertex and explore all its neighbors before moving to the next level neighbors.
 It uses a queue data structure to keep track of the vertices to be explored.
 It is similar to level order traversal of a tree.
 
+1. Initialize queue
+2. Insert starting vertex
+3. Mark starting vertex visited
+4. Repeat:
+      Pop vertex
+      Visit its neighbours
+      Insert unvisited neighbours
+5. Stop when queue is empty
 
 */
 
@@ -106,6 +117,19 @@ NODE *makeNode(int vertex)
     return newNode;
 }
 
+void display(Q q)
+{
+    int i;
+
+    cout << "Queue: ";
+
+    for(i = q.front; i < q.rear; i++)
+    {
+        cout << q.arr[i] << " ";
+    }
+
+    cout << endl;
+}
 
 int main()
 {
@@ -224,6 +248,7 @@ int main()
             temp = temp->next;
         }
     }
+    display(q);
 
 
     return 0;
@@ -290,7 +315,7 @@ void DFS(NODE *adj[], int visited[], int vertex)
     {
         if(visited[temp->vertex] == 0)
         {
-            DFS(adj, visited, temp->vertex);
+            DFS(adj, visited, temp->vertex); // it immediately goes into that neighbour's adjacency list.
         }
 
         temp = temp->next;
@@ -386,3 +411,19 @@ int main()
 
     return 0;
 }
+
+/*
+
+              V0
+             /  \
+           V1    V2
+          /  \     \
+        V3   V4     V5
+             |
+            V6
+
+
+BFS Traversal: V0 V2 V1 V5 V4 V3 V6
+DFS Traversal: V0 V2 V5 V1 V4 V6 V3
+
+*/
