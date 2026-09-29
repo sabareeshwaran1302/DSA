@@ -73,7 +73,7 @@ void counting_sort(int arr[], int n)
     int max = arr[0];
 
     // Find maximum
-    for(int i = 0; i < n; i++)
+    for(int i = 1; i < n; i++)
     {
         if(arr[i] > max)
             max = arr[i];
