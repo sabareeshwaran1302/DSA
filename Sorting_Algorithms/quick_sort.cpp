@@ -42,10 +42,10 @@ int partition(int arr[], int low, int high)
     while(start < end)
     {
         while(start < high && arr[start] <= pivot) // move start forward till the arr[start] < pivot
-            start++;
+            start++; // Purpose: Skip elements that are already on the correct side of the pivot.
 
         while(end > low && arr[end] > pivot)
-            end--;
+            end--; // Purpose: Skip elements that are already greater than the pivot and correctly belong on the right side
 
         if(start < end) // if the arr[start] is greater than pivot and arr[end] is less than pivot, swap arr[start] and arr[end]. 
         {
@@ -55,6 +55,12 @@ int partition(int arr[], int low, int high)
         }
     }
 // if start > end , then swap arr[low] and arr[end] and return end (index of the pivot element)
+// After the pointers meet:
+// - Elements before end are less than or equal to the pivot.
+// - Elements from end + 1 onward are greater than the pivot.
+// - The pivot is still at arr[low].
+ // So we swap the pivot with arr[end].
+    
     int temp = arr[low];
     arr[low] = arr[end];
     arr[end] = temp;
