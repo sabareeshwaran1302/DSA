@@ -1,7 +1,8 @@
 /*
 
 Insertion Sort : 
-Insertion Sort is a sorting algorithm that builds the sorted array one element at a time by taking each element and inserting it into its correct position among the previously sorted elements.
+Insertion Sort is a sorting algorithm that builds the sorted array one element at a time by taking each element and 
+inserting it into its correct position among the previously sorted elements.
 In simple words:
 Take one element → find its correct position in the sorted part → insert it there.
 
