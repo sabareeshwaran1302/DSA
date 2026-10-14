@@ -23,11 +23,11 @@ It is similar to level order traversal of a tree.
 
 */
 
+
 #include <iostream>
 using namespace std;
 
 #define MAX 20
-
 
 /* QUEUE IMPLEMENTATION */
 
@@ -38,25 +38,21 @@ typedef struct
     int rear;
 } Q;
 
-
 void init(Q *q)
 {
     q->front = 0;
     q->rear = 0;
 }
 
-
 int isempty(Q q)
 {
     return q.front == q.rear;
 }
 
-
 int isfull(Q q)
 {
     return q.rear == MAX;
 }
-
 
 void insert(Q *q, int data)
 {
@@ -70,7 +66,6 @@ void insert(Q *q, int data)
     q->rear++;
 }
 
-
 void pop(Q *q, int *val)
 {
     if(isempty(*q))
@@ -83,18 +78,16 @@ void pop(Q *q, int *val)
     q->front++;
 }
 
-
-void peek(Q *q, int *val)
+void peek(Q q, int *val)
 {
-    if(isempty(*q))
+    if(isempty(q))
     {
         cout << "Queue is Empty" << endl;
         return;
     }
 
-    *val = q->arr[q->front];
+    *val = q.arr[q.front];
 }
-
 
 /* GRAPH NODE */
 
@@ -104,31 +97,14 @@ typedef struct node
     struct node *next;
 } NODE;
 
-
 NODE *makeNode(int vertex)
 {
-    NODE *newNode;
-
-    newNode = new NODE;
+    NODE *newNode = new NODE;
 
     newNode->vertex = vertex;
     newNode->next = NULL;
 
     return newNode;
-}
-
-void display(Q q)
-{
-    int i;
-
-    cout << "Queue: ";
-
-    for(i = q.front; i < q.rear; i++)
-    {
-        cout << q.arr[i] << " ";
-    }
-
-    cout << endl;
 }
 
 int main()
@@ -138,41 +114,52 @@ int main()
     NODE *temp;
 
     int visited[MAX];
-
     int n, e;
-    int i;
-    int u, v;
-    int start;
-    int val;
+    int i, u, v;
+    int start, val;
 
     Q q;
-
 
     /* GET GRAPH DETAILS */
 
     cout << "Enter number of vertices: ";
     cin >> n;
 
+    if(n < 1 || n > MAX)
+    {
+        cout << "Invalid number of vertices" << endl;
+        return 0;
+    }
+
     cout << "Enter number of edges: ";
     cin >> e;
 
+    if(e < 0 || e > n * (n - 1) / 2)
+    {
+        cout << "Invalid number of edges" << endl;
+        return 0;
+    }
 
     /* INITIALIZE */
 
-    for(i = 0; i < n; i++)
+    for(i = 0; i <= n; i++)
     {
         adj[i] = NULL;
         visited[i] = 0;
     }
 
-
-    /* CREATE GRAPH */
+    /* CREATE UNDIRECTED GRAPH */
 
     for(i = 1; i <= e; i++)
     {
         cout << "Enter edge " << i << ": ";
         cin >> u >> v;
 
+        if(u < 0 || u > n || v < 0 || v > n || u == v)
+        {
+            cout << "Invalid edge" << endl;
+            return 0;
+        }
 
         /* u -> v */
 
@@ -180,14 +167,12 @@ int main()
         newNode->next = adj[u];
         adj[u] = newNode;
 
-
         /* v -> u */
 
         newNode = makeNode(u);
         newNode->next = adj[v];
         adj[v] = newNode;
     }
-
 
     /* DISPLAY ADJACENCY LIST */
 
@@ -208,31 +193,31 @@ int main()
         cout << "NULL" << endl;
     }
 
-
     /* GET STARTING VERTEX */
 
     cout << "\nEnter starting vertex: ";
     cin >> start;
 
+    if(start < 0 || start >= n)
+    {
+        cout << "Invalid starting vertex" << endl;
+        return 0;
+    }
 
-    /* BFS */
+    /* BFS TRAVERSAL */
 
     init(&q);
 
     insert(&q, start);
-
     visited[start] = 1;
 
-
     cout << "\nBFS Traversal: ";
-
 
     while(!isempty(q))
     {
         pop(&q, &val);
 
         cout << "V" << val << " ";
-
 
         temp = adj[val];
 
@@ -241,18 +226,32 @@ int main()
             if(visited[temp->vertex] == 0)
             {
                 visited[temp->vertex] = 1;
-
                 insert(&q, temp->vertex);
             }
 
             temp = temp->next;
         }
     }
-    display(q);
 
+    cout << endl;
+
+    /* FREE GRAPH MEMORY */
+
+    for(i = 0; i < n; i++)
+    {
+        temp = adj[i];
+
+        while(temp != NULL)
+        {
+            NODE *del = temp;
+            temp = temp->next;
+            delete del;
+        }
+    }
 
     return 0;
 }
+
 
 
 /*
