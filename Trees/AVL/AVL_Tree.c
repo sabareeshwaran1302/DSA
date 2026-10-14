@@ -159,6 +159,12 @@ After right rotation:
       temp
         \
          t
+
+
+BST *temp2 = temp->right;
+
+Why save this subtree? Because when temp moves up, temp's right subtree must move to become the left subtree of t. 
+Otherwise, that subtree could be lost or placed incorrectly.
 */
 
 BST *rightRotate(BST *t)
@@ -169,9 +175,8 @@ BST *rightRotate(BST *t)
     temp->right = t;
     t->left = temp2;
 
-    t->height = 1 + max(height(t->left), height(t->right));
-
     // Update the lower node first, then the new root.
+    t->height = 1 + max(height(t->left), height(t->right));
     temp->height = 1 + max(height(temp->left), height(temp->right));
 
     // After rotation, temp becomes the root.
